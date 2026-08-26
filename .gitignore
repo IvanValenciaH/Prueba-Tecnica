@@ -1,0 +1,15 @@
+# Node & Angular
+node_modules/
+.angular/
+dist/
+/tmp
+
+# Logs y entorno
+*.log
+.env
+
+# Sistema operativo e IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
