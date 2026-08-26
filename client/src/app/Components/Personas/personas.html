@@ -1,0 +1,53 @@
+<h2 class="subtitulo">Buscar y Filtrar Personajes</h2>
+
+<div class="filtros-container">
+  <mat-form-field appearance="outline" class="filtro-item">
+    <mat-label>Buscar por nombre o ID</mat-label>
+    <input 
+      matInput 
+      [ngModel]="busqueda()" 
+      (ngModelChange)="busqueda.set($event)"
+      placeholder="Ej. Rick o 1"
+    >
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Select de Estado -->
+  <mat-form-field appearance="outline" class="filtro-item1">
+    <mat-label>Estado</mat-label>
+    <mat-select [ngModel]="filtroEstado()" (ngModelChange)="filtroEstado.set($event)">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="Alive">Vivo (Alive)</mat-option>
+      <mat-option value="Dead">Muerto (Dead)</mat-option>
+      <mat-option value="unknown">Desconocido</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Select de Especie -->
+  <mat-form-field appearance="outline" class="filtro-item2">
+    <mat-label>Especie</mat-label>
+    <mat-select [ngModel]="filtroEspecie()" (ngModelChange)="filtroEspecie.set($event)">
+      <mat-option value="">Todas</mat-option>
+      <mat-option value="Human">Humano</mat-option>
+      <mat-option value="Alien">Extraterrestre (Alien)</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<!-- Tarjetas con MatCard -->
+<div class="grid-container">
+  @for (personaje of personajesFiltrados(); track personaje.id) {
+    <mat-card class="card" appearance="outlined">
+      <img mat-card-image [src]="personaje.image" [alt]="personaje.name">
+      <mat-card-header>
+        <mat-card-title>#{{ personaje.id }} - {{ personaje.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Especie:</strong> {{ personaje.species }}</p>
+        <p><strong>Estado:</strong> {{ personaje.status }}</p>
+      </mat-card-content>
+    </mat-card>
+  } @empty {
+    <p class="sin-resultados">No se encontraron personajes con esos criterios.</p>
+  }
+</div>
