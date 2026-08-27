@@ -49,6 +49,13 @@
   object-fit: cover;
 }
 
+.card-acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+}
+
 mat-card-title {
   font-size: 1.1rem !important;
   margin-top: 10px;

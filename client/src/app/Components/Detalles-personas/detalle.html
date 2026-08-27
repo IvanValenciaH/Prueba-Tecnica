@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{ data.name }}</h2>
+
+<mat-dialog-content class="detalle-contenido">
+  <img [src]="data.image" [alt]="data.name" class="detalle-img">
+  <p><strong>ID:</strong> #{{ data.id }}</p>
+  <p><strong>Estado:</strong> {{ data.status }}</p>
+  <p><strong>Especie:</strong> {{ data.species }}</p>
+  <p><strong>Género:</strong> {{ data.gender || 'Desconocido' }}</p>
+  <p><strong>Origen:</strong> {{ data.origin?.name || 'Desconocido' }}</p>
+  <p><strong>Ubicación:</strong> {{ data.location?.name || 'Desconocida' }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" (click)="cerrar()">Volver Atrás</button>
+</mat-dialog-actions>

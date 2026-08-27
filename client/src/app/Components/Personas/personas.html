@@ -3,16 +3,10 @@
 <div class="filtros-container">
   <mat-form-field appearance="outline" class="filtro-item">
     <mat-label>Buscar por nombre o ID</mat-label>
-    <input 
-      matInput 
-      [ngModel]="busqueda()" 
-      (ngModelChange)="busqueda.set($event)"
-      placeholder="Ej. Rick o 1"
-    >
+    <input matInput [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" placeholder="Ej. Rick o 1">
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
-  <!-- Select de Estado -->
   <mat-form-field appearance="outline" class="filtro-item1">
     <mat-label>Estado</mat-label>
     <mat-select [ngModel]="filtroEstado()" (ngModelChange)="filtroEstado.set($event)">
@@ -23,7 +17,6 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Select de Especie -->
   <mat-form-field appearance="outline" class="filtro-item2">
     <mat-label>Especie</mat-label>
     <mat-select [ngModel]="filtroEspecie()" (ngModelChange)="filtroEspecie.set($event)">
@@ -34,7 +27,6 @@
   </mat-form-field>
 </div>
 
-<!-- Tarjetas con MatCard -->
 <div class="grid-container">
   @for (personaje of personajesFiltrados(); track personaje.id) {
     <mat-card class="card" appearance="outlined">
@@ -46,6 +38,15 @@
         <p><strong>Especie:</strong> {{ personaje.species }}</p>
         <p><strong>Estado:</strong> {{ personaje.status }}</p>
       </mat-card-content>
+
+      <mat-card-actions class="card-acciones">
+        <button mat-flat-button color="primary" (click)="verDetalles(personaje)">Ver Detalles</button>
+        <button mat-icon-button (click)="toggleFav(personaje)">
+          <mat-icon [style.color]="favoritoService.esFavorito(personaje.id) ? 'red' : 'gray'">
+            {{ favoritoService.esFavorito(personaje.id) ? 'favorite' : 'favorite_border' }}
+          </mat-icon>
+        </button>
+      </mat-card-actions>
     </mat-card>
   } @empty {
     <p class="sin-resultados">No se encontraron personajes con esos criterios.</p>

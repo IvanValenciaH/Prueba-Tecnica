@@ -1,7 +1,22 @@
-<mat-toolbar color="primary" class="navbar">
-  <span>Rick and Morty App</span>
+<mat-toolbar class="navbar">
+  <span class="logo" (click)="cambiarVista('inicio')">Rick and Morty App</span>
+  
+  <span class="spacer"></span>
+
+  <button 
+    mat-button 
+    class="nav-btn" 
+    [class.activo]="vistaActual() === 'favoritos'"
+    (click)="cambiarVista('favoritos')"
+  >
+    <mat-icon>favorite</mat-icon> Favoritos
+  </button>
 </mat-toolbar>
 
 <main class="main-container">
-  <app-personas></app-personas>
+  @if (vistaActual() === 'inicio') {
+    <app-personas></app-personas>
+  } @else {
+    <app-favoritos (volver)="cambiarVista('inicio')"></app-favoritos>
+  }
 </main>

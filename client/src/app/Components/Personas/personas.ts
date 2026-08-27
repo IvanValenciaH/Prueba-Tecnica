@@ -7,9 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { PersonasService } from '../../Services/persona.services';
+import { FavoritoService } from '../../Services/favorito.services';
 import { Character } from '../../Models/persona.model';
+import { DetalleComponent } from '../Detalles-personas/detalle';
 
 @Component({
   selector: 'app-personas',
@@ -21,13 +25,17 @@ import { Character } from '../../Models/persona.model';
     MatInputModule,
     MatSelectModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   templateUrl: './personas.html',
   styleUrl: './personas.css'
 })
 export class PersonasComponent implements OnInit {
   private personasService = inject(PersonasService);
+  favoritoService = inject(FavoritoService);
+  private dialog = inject(MatDialog);
 
   personajes = signal<Character[]>([]);
 
@@ -56,5 +64,13 @@ export class PersonasComponent implements OnInit {
       next: (data: any) => this.personajes.set(data.results),
       error: (err) => console.error('Error al cargar personajes:', err)
     });
+  }
+
+  verDetalles(personaje: Character) {
+    this.dialog.open(DetalleComponent, { data: personaje });
+  }
+
+  toggleFav(personaje: Character) {
+    this.favoritoService.toggleFavorito(personaje);
   }
 }

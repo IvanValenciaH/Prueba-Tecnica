@@ -1,0 +1,30 @@
+<div class="header-favoritos">
+  <button mat-raised-button color="basic" (click)="regresar()">
+    <mat-icon>arrow_back</mat-icon> Volver Atrás
+  </button>
+</div>
+<h2 class="h2">Mis Personajes Favoritos</h2>
+
+<div class="grid-container">
+  @for (personaje of favoritoService.favoritos(); track personaje.id) {
+    <mat-card class="card" appearance="outlined">
+      <img mat-card-image [src]="personaje.image" [alt]="personaje.name">
+      <mat-card-header>
+        <mat-card-title>#{{ personaje.id }} - {{ personaje.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Estado:</strong> {{ personaje.status }}</p>
+      </mat-card-content>
+      
+      <!--Botones de Acción-->
+      <mat-card-actions class="card-acciones">
+        <button mat-flat-button color="primary" (click)="verDetalles(personaje)">Ver Detalles</button>
+        <button mat-icon-button color="warn" (click)="toggleFav(personaje)">
+          <mat-icon>favorite</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  } @empty {
+    <p class="sin-favoritos">No has agregado ningún personaje a favoritos aún.</p>
+  }
+</div>
