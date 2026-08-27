@@ -7,7 +7,7 @@ import { Character } from '../Models/persona.model';
 })
 export class FavoritoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/favoritos';
+  private apiUrl = 'https://rick-morty-bk.onrender.com/api/favoritos';
 
   //Signal para mantener la lista de favoritos sincronizada
   favoritos = signal<Character[]>([]);
