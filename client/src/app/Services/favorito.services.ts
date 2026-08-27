@@ -1,41 +1,53 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Character } from '../Models/persona.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritoService {
-  //Inicializamos la señal leyendo de localStorage si ya existen datos guardados
-  favoritos = signal<Character[]>(this.obtenerFavoritosGuardados());
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/favoritos';
 
-  //Lee los favoritos de localStorage (si no hay nada, retorna lista vacía [])
-  private obtenerFavoritosGuardados(): Character[] {
-    const datos = localStorage.getItem('favoritos_rick_morty');
-    return datos ? JSON.parse(datos) : [];
+  //Signal para mantener la lista de favoritos sincronizada
+  favoritos = signal<Character[]>([]);
+
+  constructor() {
+    //Al iniciar el servicio se trae los datos directo de MongoDB
+    this.cargarFavoritos();
   }
 
-  //Guarda la lista actualizada en localStorage
-  private guardarEnLocalStorage(lista: Character[]) {
-    localStorage.setItem('favoritos_rick_morty', JSON.stringify(lista));
+  //Obtener favoritos desde la API en MongoDB
+  cargarFavoritos() {
+    this.http.get<Character[]>(this.apiUrl).subscribe({
+      next: (datos) => this.favoritos.set(datos),
+      error: (err) => console.error('Error al cargar favoritos desde MongoDB:', err)
+    });
   }
 
+  //Agregar o Quitar Favorito usando la API
   toggleFavorito(personaje: Character) {
-    const existe = this.favoritos().some(p => p.id === personaje.id);
-    let listaActualizada: Character[];
+    const existe = this.esFavorito(personaje.id);
 
     if (existe) {
-      //Quitar de favoritos
-      listaActualizada = this.favoritos().filter(p => p.id !== personaje.id);
-      personaje.esFavorito = false;
+      //Eliminar en la base de datos
+      this.http.delete(`${this.apiUrl}/${personaje.id}`).subscribe({
+        next: () => {
+          this.favoritos.update(lista => lista.filter(p => p.id !== personaje.id));
+          personaje.esFavorito = false;
+        },
+        error: (err) => console.error('Error al eliminar de MongoDB:', err)
+      });
     } else {
-      //Agregar a favoritos
-      listaActualizada = [...this.favoritos(), { ...personaje, esFavorito: true }];
-      personaje.esFavorito = true;
+      //Guardar en la base de datos
+      this.http.post(this.apiUrl, personaje).subscribe({
+        next: () => {
+          this.favoritos.update(lista => [...lista, { ...personaje, esFavorito: true }]);
+          personaje.esFavorito = true;
+        },
+        error: (err) => console.error('Error al guardar en MongoDB:', err)
+      });
     }
-
-    //Actualizamos la Signal y el localStorage al mismo tiempo
-    this.favoritos.set(listaActualizada);
-    this.guardarEnLocalStorage(listaActualizada);
   }
 
   esFavorito(id: number): boolean {
