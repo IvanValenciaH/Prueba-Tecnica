@@ -1,16 +1,19 @@
 .navbar {
   display: flex;
-  font-size: 40px;
+  font-size: 2rem;
   align-items: center;
   justify-content: space-between;
   background-color: #0f172a;
   color: #ffffff;
-  padding: 50px 20px;
+  padding: 1.5rem 1.2rem;
+  height: auto !important;
+  min-height: fit-content;
 }
 
 .logo {
   cursor: pointer;
   font-weight: bold;
+  line-height: 1.2;
 }
 
 .spacer {
@@ -20,12 +23,12 @@
 .nav-btn {
   color: #ffffff !important;
   transition: background-color 0.3s ease;
-  font-size: 30px;
+  font-size: 1.3rem !important;
 }
 
 .nav-btn:hover, .nav-btn.activo {
   background-color: rgba(255, 255, 255, 0.15) !important;
-  color: #f43f5e !important; /* Resaltado al pasar el mouse o estar activo */
+  color: #f43f5e !important;
 }
 
 .main-container {
@@ -35,16 +38,21 @@
 @media (max-width: 600px) {
   .navbar {
     flex-direction: column;
-    gap: 12px;
-    padding: 1rem;
+    gap: 16px;
+    padding: 1.2rem 1rem;
     text-align: center;
   }
 
-  .logo-title {
-    font-size: 1.4rem;
+  .logo {
+    font-size: 1.6rem;
   }
 
-  .fav-btn {
+  .spacer {
+    display: none;
+  }
+
+  .nav-btn {
     width: 100%;
+    font-size: 1.2rem !important;
   }
 }

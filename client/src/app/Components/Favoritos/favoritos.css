@@ -1,17 +1,20 @@
 .header-favoritos {
   display: flex;
   font-size: 20px;
-  align-items: left;
+  align-items: flex-start;
   gap: 20px;
   margin-bottom: 20px;
 }
 
 .h2 {
-  font-size: 40px;
-  margin-left: 10px;
+  font-size: 2.2rem;
+  line-height: 1.35;
+  margin: 1.5rem 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  word-break: break-word;
 }
 
 .grid-container {
@@ -41,4 +44,10 @@
   text-align: center;
   color: #64748b;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .h2 {
+    font-size: 1.7rem;
+  }
 }
