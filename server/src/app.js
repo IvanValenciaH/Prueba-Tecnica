@@ -11,6 +11,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//Ruta raíz para verificar el estado del servidor
+app.get('/', (req, res) => {
+  res.status(200).send('Servidor backend corriendo exitosamente.');
+});
+
 //Conexión a MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Conectado exitosamente a MongoDB Atlas'))
